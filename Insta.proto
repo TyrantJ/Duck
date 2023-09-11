@@ -1,0 +1,38 @@
+syntax="proto3";
+package Insat;
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+service Insat{
+    rpc postMessage(post)returns(Tweet);
+    rpc likeMessage(ReactionMessage)returns(google.protobuf.StringValue);
+    rpc comment(commentMessage)returns(Tweet);
+    rpc viewMessages(google.protobuf.Empty)returns(stream Tweet);
+}
+
+message post{
+    string message=1;
+    string time=2;
+}
+
+enum Reaction{
+    like=0;
+    Dislike=1;
+}
+
+message ReactionMessage{
+    Reaction reaction=1;
+    string messageId=2;
+}
+
+message Tweet{
+    string id=1;
+    string message=2;
+    string time=3;
+    int64 likes=4;
+    repeated string comments=5;
+}
+message commentMessage{
+    string comment=1;
+    string messageId=2;
+}
